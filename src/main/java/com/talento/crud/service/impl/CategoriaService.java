@@ -1,0 +1,51 @@
+package com.talento.crud.service.impl;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.talento.crud.dto.input.CategoriaInputDTO;
+import com.talento.crud.dto.output.CategoriaOutputDTO;
+import com.talento.crud.mapper.CategoriaMapper;
+import com.talento.crud.model.Categoria;
+import com.talento.crud.repository.ICategoriaRepository;
+import com.talento.crud.service.ICategoriaService;
+
+@Service
+public class CategoriaService implements ICategoriaService{
+
+    private final ICategoriaRepository categoriaRepository;
+    private final CategoriaMapper categoriaMapper;
+    
+    @Autowired
+    public CategoriaService(ICategoriaRepository categoriaRepository, CategoriaMapper categoriaMapper){
+        this.categoriaRepository = categoriaRepository;
+        this.categoriaMapper = categoriaMapper;
+    }
+
+    @Override
+    public List<CategoriaOutputDTO> listarCategorias() {
+        List<Categoria> categorias = categoriaRepository.findAll();
+        List<CategoriaOutputDTO> categoriasOutputDTO= categorias
+        .stream()
+        .map(categoriaMapper::toOutput)
+        .collect(Collectors.toList());
+
+        return categoriasOutputDTO;
+    
+    }
+
+    @Override
+    public CategoriaOutputDTO crearCategoria(CategoriaInputDTO categoriaInputDTO) {
+        Categoria categoria = categoriaMapper.toEntity(categoriaInputDTO);
+        categoria = categoriaRepository.save(categoria);
+
+        return categoriaMapper.toOutput(categoria); 
+    
+    }
+
+
+}

@@ -1,5 +1,6 @@
 package com.talento.crud.mapper;
 
+import com.talento.crud.dto.input.CategoriaInputDTO;
 import com.talento.crud.dto.output.CategoriaOutputDTO;
 import com.talento.crud.model.Categoria;
 import org.springframework.stereotype.Component;
@@ -22,12 +23,12 @@ public class CategoriaMapper {
         return categoria;
     }
 
-    public Categoria toEntity(CategoriaOutputDTO categoriaOutputDTO) {
-        if (categoriaOutputDTO == null) return null;
+    public Categoria toEntity(CategoriaInputDTO categoriaInputDTO) {
+        if (categoriaInputDTO == null) return null;
 
         Categoria categoria = new Categoria();
-        categoria.setId(categoriaOutputDTO.getId());
-        categoria.setNombre(categoriaOutputDTO.getNombre());
+        categoria.setId(categoriaInputDTO.getId());
+        categoria.setNombre(categoriaInputDTO.getNombre());
 
         return categoria;
     }

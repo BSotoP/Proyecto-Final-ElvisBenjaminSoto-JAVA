@@ -6,9 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.talento.crud.dto.input.ArticuloInputDTO;
 import com.talento.crud.dto.input.CategoriaInputDTO;
+import com.talento.crud.dto.output.ArticuloOutputDTO;
 import com.talento.crud.dto.output.CategoriaOutputDTO;
 import com.talento.crud.mapper.CategoriaMapper;
+import com.talento.crud.model.Articulo;
 import com.talento.crud.model.Categoria;
 import com.talento.crud.repository.ICategoriaRepository;
 import com.talento.crud.service.ICategoriaService;
@@ -43,7 +46,7 @@ public class CategoriaService implements ICategoriaService{
         // if (categoriaInputDTO.getNombre() == null || categoriaInputDTO.getNombre().isBlank()) {
         //     throw new IllegalArgumentException("El nombre es obligatorio");
         // }
-        
+
         //TODO: Agregar Exception personalizados
         // if (categoriaRepository.existsByNombre(categoriaInputDTO.getNombre())) {
         // throw new RuntimeException("Ya existe una categoría con ese nombre");
@@ -54,6 +57,24 @@ public class CategoriaService implements ICategoriaService{
 
         return categoriaMapper.toOutput(categoria); 
     
+    }
+
+
+    @Override
+    public CategoriaOutputDTO actualizarCategoriaPorId(Long id, CategoriaInputDTO categoriaInputDTO) {
+
+         //TODO: Agregar Exception personalizados y retornar mensaje
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+
+        if (categoriaInputDTO.getNombre() != null){
+            categoria.setNombre(categoriaInputDTO.getNombre());
+        }
+       
+
+        categoria = categoriaRepository.save(categoria);
+        return categoriaMapper.toOutput(categoria);
+       
     }
 
 

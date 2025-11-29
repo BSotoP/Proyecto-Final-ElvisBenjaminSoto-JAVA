@@ -11,6 +11,6 @@ public interface ICategoriaService {
     public CategoriaOutputDTO crearCategoria(CategoriaInputDTO categoriaInputDTO);
     public List<CategoriaOutputDTO> listarCategorias();
     //public ArticuloOutputDTO actualizarArticuloPorId(Long id, ArticuloInputDTO articuloInputDTO);
-    //public String eliminarArticuloPorId(String id);
+    public Void elimniarCategoriaPorId(Long id);
     public CategoriaOutputDTO actualizarCategoriaPorId(Long id, CategoriaInputDTO categoriaInputDTO);
 }

@@ -77,5 +77,14 @@ public class CategoriaService implements ICategoriaService{
        
     }
 
+    @Override
+    public Void elimniarCategoriaPorId(Long id) {
+        Categoria categoria = categoriaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+  
+        categoriaRepository.deleteById(id);
+        return null;
+    }
+
 
 }

@@ -87,13 +87,12 @@ public class ArticuloService implements IArticuloService {
 
 
     @Override
-    public String eliminarArticuloPorId(String id) {
-        Optional<Articulo> articuloOptional = articuloRepository.findById(Long.parseLong(id));
-        if(articuloOptional.isEmpty()){
-            return "Articulo no encontrado";
-        }
-        articuloRepository.deleteById(Long.parseLong(id));
-        return "Articulo eliminado correctamente";
+    public Void eliminarArticuloPorId(Long id) {
+        Articulo articulo = articuloRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+  
+        articuloRepository.deleteById(id);
+        return null;
     }
 
 }

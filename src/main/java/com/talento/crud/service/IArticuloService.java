@@ -10,5 +10,5 @@ public interface IArticuloService {
     public ArticuloOutputDTO crearArticulo(ArticuloInputDTO articuloInputDTO);
     public List<ArticuloOutputDTO> listarArticulos();
     public ArticuloOutputDTO actualizarArticuloPorId(Long id, ArticuloInputDTO articuloInputDTO);
-    public String eliminarArticuloPorId(String id);
+    public Void eliminarArticuloPorId(Long id);
 }

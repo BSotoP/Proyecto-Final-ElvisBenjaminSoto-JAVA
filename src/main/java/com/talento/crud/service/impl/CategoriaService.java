@@ -1,17 +1,13 @@
 package com.talento.crud.service.impl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.talento.crud.dto.input.ArticuloInputDTO;
 import com.talento.crud.dto.input.CategoriaInputDTO;
-import com.talento.crud.dto.output.ArticuloOutputDTO;
 import com.talento.crud.dto.output.CategoriaOutputDTO;
 import com.talento.crud.mapper.CategoriaMapper;
-import com.talento.crud.model.Articulo;
 import com.talento.crud.model.Categoria;
 import com.talento.crud.repository.ICategoriaRepository;
 import com.talento.crud.service.ICategoriaService;

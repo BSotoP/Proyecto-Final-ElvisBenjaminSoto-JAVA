@@ -36,19 +36,6 @@ public class CategoriaController {
     @GetMapping
     public ResponseEntity<StandardResponse<List<CategoriaOutputDTO>>> listarCategorias() {
         List<CategoriaOutputDTO> categoriaOutputDTOs = categoriaService.listarCategorias();
-
-        if(categoriaOutputDTOs==null){
-
-            StandardResponse<List<CategoriaOutputDTO>> response =
-                new StandardResponse<>(
-                        LocalDateTime.now().toString(),
-                        "No se pudo obtener la lista de categorías",
-                        null
-                );
-
-            return ResponseEntity.internalServerError().body(response);
-        }
-
         StandardResponse<List<CategoriaOutputDTO>> response = new StandardResponse<>(
                                                                                 LocalDateTime.now().toString(),
                                                                                 "Lista obtenida correctamente",
@@ -59,21 +46,11 @@ public class CategoriaController {
     @PostMapping()
     public ResponseEntity<StandardResponse<CategoriaOutputDTO>> crearCatgeoria(@RequestBody CategoriaInputDTO categoriaInputDTO) {        
         CategoriaOutputDTO categoriaOutputDTO = categoriaService.crearCategoria(categoriaInputDTO);
-        if(categoriaOutputDTO == null){
-            StandardResponse<CategoriaOutputDTO> response =  new StandardResponse<>(
-                                                                                LocalDateTime.now().toString(),
-                                                                                "Error al crear la categoria", 
-                                                                                null);
-            return ResponseEntity.internalServerError().body(response);
-        }
-
         StandardResponse<CategoriaOutputDTO> response = new StandardResponse<>(
                                                                                 LocalDateTime.now().toString(),
                                                                                 "Categoria creada correctamente",
                                                                                 categoriaOutputDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
-
-     
     }
     
 

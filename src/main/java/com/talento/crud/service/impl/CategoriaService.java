@@ -1,7 +1,6 @@
 package com.talento.crud.service.impl;
 
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,7 @@ public class CategoriaService implements ICategoriaService{
         List<CategoriaOutputDTO> categoriasOutputDTO= categorias
         .stream()
         .map(categoriaMapper::toOutput)
-        .collect(Collectors.toList());
+        .toList();
 
         return categoriasOutputDTO;
     
@@ -40,6 +39,16 @@ public class CategoriaService implements ICategoriaService{
 
     @Override
     public CategoriaOutputDTO crearCategoria(CategoriaInputDTO categoriaInputDTO) {
+         //TODO: Agregar Exception personalizados
+        // if (categoriaInputDTO.getNombre() == null || categoriaInputDTO.getNombre().isBlank()) {
+        //     throw new IllegalArgumentException("El nombre es obligatorio");
+        // }
+        
+        //TODO: Agregar Exception personalizados
+        // if (categoriaRepository.existsByNombre(categoriaInputDTO.getNombre())) {
+        // throw new RuntimeException("Ya existe una categoría con ese nombre");
+        // }
+
         Categoria categoria = categoriaMapper.toEntity(categoriaInputDTO);
         categoria = categoriaRepository.save(categoria);
 

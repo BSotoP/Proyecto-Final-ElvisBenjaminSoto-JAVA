@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import com.talento.crud.dto.response.StandardResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
         StandardResponse<Void> response =
                 new StandardResponse<>(ex.getMessage(), null);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
     @ExceptionHandler(CategoriaEsNull.class)
@@ -45,6 +45,6 @@ public class GlobalExceptionHandler {
         StandardResponse<Void> response =
                 new StandardResponse<>(ex.getMessage(), null);
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }

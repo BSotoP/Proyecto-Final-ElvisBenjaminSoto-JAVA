@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.talento.crud.dto.input.CategoriaInputDTO;
 import com.talento.crud.dto.output.CategoriaOutputDTO;
+import com.talento.crud.exceptions.CategoriaNoEncontradaException;
 import com.talento.crud.mapper.CategoriaMapper;
 import com.talento.crud.model.Categoria;
 import com.talento.crud.repository.ICategoriaRepository;
@@ -59,9 +60,8 @@ public class CategoriaService implements ICategoriaService{
     @Override
     public CategoriaOutputDTO actualizarCategoriaPorId(Long id, CategoriaInputDTO categoriaInputDTO) {
 
-         //TODO: Agregar Exception personalizados y retornar mensaje
         Categoria categoria = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+                .orElseThrow(() -> new CategoriaNoEncontradaException("Categoria no encontrada"));
 
         if (categoriaInputDTO.getNombre() != null){
             categoria.setNombre(categoriaInputDTO.getNombre());
@@ -76,7 +76,7 @@ public class CategoriaService implements ICategoriaService{
     @Override
     public Void elimniarCategoriaPorId(Long id) {
         Categoria categoria = categoriaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+                .orElseThrow(() -> new CategoriaNoEncontradaException("Categoria no encontrada"));
   
         categoriaRepository.deleteById(id);
         return null;

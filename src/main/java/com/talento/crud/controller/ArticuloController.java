@@ -63,4 +63,14 @@ public class ArticuloController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @GetMapping("/{id}")
+    private ResponseEntity<StandardResponse<ArticuloOutputDTO>> getArticuloById(@PathVariable Long id) {
+        ArticuloOutputDTO articuloOutputDTO = articuloService.getArticuloById(id);
+        StandardResponse<ArticuloOutputDTO> response = new StandardResponse<>("Articulo actualizado correctamente",
+                                                                                articuloOutputDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+
 }

@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.talento.crud.dto.input.ArticuloInputDTO;
 import com.talento.crud.dto.output.ArticuloOutputDTO;
+import com.talento.crud.exceptions.ArticuloNoEncontradaException;
+import com.talento.crud.exceptions.CategoriaEsNull;
+import com.talento.crud.exceptions.CategoriaNoEncontradaException;
+import com.talento.crud.exceptions.InvalidPrecioException;
 import com.talento.crud.mapper.ArticuloMapper;
 import com.talento.crud.model.Articulo;
 import com.talento.crud.model.Categoria;
@@ -16,30 +20,28 @@ import com.talento.crud.repository.ICategoriaRepository;
 
 @Service
 public class ArticuloService implements IArticuloService {
-
-    private final IArticuloRepository articuloRepository;
-    private final ICategoriaRepository categoriaRepository;
-    private final ArticuloMapper articuloMapper;
-
-
     @Autowired
-    public ArticuloService(IArticuloRepository articuloRepository, ICategoriaRepository categoriaRepository, ArticuloMapper articuloMapper) {
-        this.articuloRepository = articuloRepository;
-        this.categoriaRepository = categoriaRepository;
-        this.articuloMapper = articuloMapper;
-    }
+    private IArticuloRepository articuloRepository;
+    @Autowired
+    private ICategoriaRepository categoriaRepository;
+    @Autowired
+    private ArticuloMapper articuloMapper;
 
-  
-
-  
 
     @Override
     public ArticuloOutputDTO crearArticulo(ArticuloInputDTO articuloInputDTO) {
 
+        if(articuloInputDTO.getPrecio() < 0){
+            throw new InvalidPrecioException("El precio no pude ser menor a cero");
+        }
+        if(articuloInputDTO.getCategoriaId() == null){
+            throw new CategoriaEsNull("Debe Ingresar categoriaId");
+        }
+
         Articulo articulo =  articuloMapper.toEntity(articuloInputDTO);
 
         Categoria categoria = categoriaRepository.findById(articuloInputDTO.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+                .orElseThrow(() -> new CategoriaNoEncontradaException("Categoría no encontrada"));
 
         articulo.setCategoria(categoria);
 
@@ -62,7 +64,7 @@ public class ArticuloService implements IArticuloService {
     public ArticuloOutputDTO actualizarArticuloPorId(Long id, ArticuloInputDTO articuloInputDTO) {
 
         Articulo articulo = articuloRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+                .orElseThrow(() -> new ArticuloNoEncontradaException("Articulo no encontrado"));
 
         if (articuloInputDTO.getNombre() != null)
         articulo.setNombre(articuloInputDTO.getNombre());
@@ -75,7 +77,7 @@ public class ArticuloService implements IArticuloService {
 
         if (articuloInputDTO.getCategoriaId() != null) {
         Categoria categoria = categoriaRepository.findById(articuloInputDTO.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+                .orElseThrow(() -> new CategoriaNoEncontradaException("Categoría no encontrada"));
         articulo.setCategoria(categoria);
         }
 
@@ -88,10 +90,20 @@ public class ArticuloService implements IArticuloService {
     @Override
     public Void eliminarArticuloPorId(Long id) {
         Articulo articulo = articuloRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Articulo no encontrado"));
+        .orElseThrow(() -> new ArticuloNoEncontradaException("Articulo no encontrado"));
   
         articuloRepository.deleteById(id);
         return null;
+    }
+
+
+
+    @Override
+    public ArticuloOutputDTO getArticuloById(Long id) {
+       Articulo articulo = articuloRepository.findById(id)
+        .orElseThrow(() -> new ArticuloNoEncontradaException("Articulo no encontrado"));
+
+        return articuloMapper.toOutput(articulo);
     }
 
 }
